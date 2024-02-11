@@ -1,0 +1,11 @@
+{
+  "name": "relative-antlr4-headers",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "main": "node ./main.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

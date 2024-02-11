@@ -1,0 +1,62 @@
+﻿{
+  "version": 3,
+  "configurePresets": [
+    {
+      "name": "windows-base",
+      "generator": "Ninja Multi-Config",
+      "binaryDir": "${sourceDir}/out/build/${presetName}",
+      "installDir": "${sourceDir}/out/install/${presetName}",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Windows"
+      },
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "cl.exe",
+        "CMAKE_CXX_COMPILER": "cl.exe",
+        "CMAKE_TOOLCHAIN_FILE": {
+          "type": "FILEPATH",
+          "value": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
+        },
+        "VCPKG_TARGET_TRIPLET": "x64-windows",
+        "EMSCRIPTEN_PRESET": false
+      }
+    },
+    {
+      "name": "emscripten-base",
+      "generator": "Ninja Multi-Config",
+      "binaryDir": "${sourceDir}/out/build/${presetName}",
+      "installDir": "${sourceDir}/out/install/${presetName}",
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "$env{EMSDK}/upstream/emscripten/emcc.bat",
+        "CMAKE_CXX_COMPILER": "$env{EMSDK}/upstream/emscripten/em++.bat",
+        "CMAKE_TOOLCHAIN_FILE": {
+          "type": "FILEPATH",
+          "value": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
+        },
+        "VCPKG_CHAINLOAD_TOOLCHAIN_FILE": {
+          "type": "FILEPATH",
+          "value": "$env{EMSDK}/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake"
+        },
+        "VCPKG_TARGET_TRIPLET": "wasm32-emscripten",
+        "EMSCRIPTEN_PRESET": true
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "x64-debug-windows",
+      "configurePreset": "windows-base",
+      "displayName": "x64-debug-windows",
+      "description": "",
+      "configuration": "Debug"
+    },
+    {
+      "name": "wasm32-debug-emscripten",
+      "configurePreset": "emscripten-base",
+      "displayName": "wasm32-debug-emscripten",
+      "description": "",
+      "configuration": "Debug"
+    }
+  ]
+}
